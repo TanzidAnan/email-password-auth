@@ -1,11 +1,24 @@
-import React from 'react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
+import { auth } from '../../firebase.config';
 
 const SignUp = () => {
+    const [errorMesseg,setErrorMessage] =useState('')
 
     const hendleSingUp =(e) =>{
         e.preventDefault();
-        console.log(e.target.email.value)
-        console.log(e.target.password.value)
+    const email =(e.target.email.value)
+        const password =(e.target.password.value)
+
+        createUserWithEmailAndPassword(auth,email,password)
+        .then(result =>{
+            console.log(result.user);
+            setErrorMessage('')
+        })
+        .catch(error =>{
+            console.log(error.message);
+            setErrorMessage(error.message)
+        })
     }
 
 
@@ -36,6 +49,9 @@ const SignUp = () => {
                         <button className="btn bg-rose-300 btn-primary">google</button>
                     </div>
                 </form>
+                {
+                    errorMesseg&& <p className='text-2xl text-red-400'>{errorMesseg}</p>
+                }
             </div>
         </div>
     );
