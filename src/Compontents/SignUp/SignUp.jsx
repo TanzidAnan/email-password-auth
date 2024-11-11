@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from 'firebase/auth';
 import React, { useState } from 'react';
 import { auth } from '../../firebase.config';
 import { BsChevronExpand, BsKeyFill } from "react-icons/bs";
@@ -37,6 +37,18 @@ const SignUp = () => {
                 sendEmailVerification(auth.currentUser)
                 .then(() =>{
                     console.log('varifation email')
+                });
+
+                const profile ={
+                    displayName:name,
+                    photoURL:photo
+                }
+                updateProfile(auth.currentUser,profile)
+                .then(() =>{
+                    console.log('user profile')
+                })
+                .catch(error =>{
+                    console.log(error)
                 })
             })
             .catch(error => {
