@@ -1,10 +1,36 @@
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../../firebase.config";
+import { useState } from "react";
 
 const Register = () => {
 
+    const [googleRes, setGoogleRes] =useState(null)
+
     const hendleRegister = (e) => {
         e.preventDefault();
-        console.log(e.target.email.value)
-        console.log(e.target.passeword.value)
+        const email=e.target.email.value;
+        const password=e.target.passeword.value;
+        console.log(email,password);
+
+        createUserWithEmailAndPassword(auth,email,password)
+        .then(result =>{
+            console.log(result.user)
+        })
+        .catch(error =>{
+            console.log('ERROR:', error)
+        })
+    }
+    const googleProvider = new GoogleAuthProvider();
+    const hendleGoogleSignIn = () =>{
+        signInWithPopup(auth,googleProvider)
+        .then(result => {
+            console.log(result.user);
+            setGoogleRes(result.user)
+        })
+        .catch(error =>{
+            console.log(error)
+            setGoogleRes(null)
+        })
     }
 
     return (
@@ -38,7 +64,8 @@ const Register = () => {
                     </svg>
                     <input type="password" className="grow" placeholder="password" name="passeword" />
                 </label>
-                <button className="btn btn-block mt-9 bg-red-400">block</button>
+                <button className="btn btn-block mt-9 bg-red-400">Registion</button>
+                <button onClick={hendleGoogleSignIn} className="btn btn-block mt-9 bg-red-400">Registion</button>
             </form>
         </div>
     );
