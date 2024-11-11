@@ -1,24 +1,37 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import { auth } from '../../firebase.config';
+import { BsChevronExpand, BsKeyFill } from "react-icons/bs";
+
 
 const SignUp = () => {
-    const [errorMesseg,setErrorMessage] =useState('')
+    const [success, setSuccess] = useState(false)
+    const [errorMesseg, setErrorMessage] = useState('');
+    const [showPassword, setShowPassword] = useState(false)
 
-    const hendleSingUp =(e) =>{
+    const hendleSingUp = (e) => {
         e.preventDefault();
-    const email =(e.target.email.value)
-        const password =(e.target.password.value)
+        const email = (e.target.email.value)
+        const password = (e.target.password.value)
 
-        createUserWithEmailAndPassword(auth,email,password)
-        .then(result =>{
-            console.log(result.user);
-            setErrorMessage('')
-        })
-        .catch(error =>{
-            console.log(error.message);
-            setErrorMessage(error.message)
-        })
+        setErrorMessage('');
+        setSuccess(false)
+        if (password.length < 6) {
+            setErrorMessage('6 carect password longer');
+            return
+        }
+
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(result => {
+                console.log(result.user);
+
+
+            })
+            .catch(error => {
+                console.log(error.message);
+                setErrorMessage(error.message);
+                setSuccess(true)
+            })
     }
 
 
@@ -31,26 +44,45 @@ const SignUp = () => {
                         <label className="label">
                             <span className="label-text">Email</span>
                         </label>
-                        <input type="email" name='email' placeholder="email" className="input input-bordered"/>
+                        <input type="email"
+                            name='email' placeholder="email" className="input input-bordered" />
                     </div>
-                    <div className="form-control">
+                    <div className="form-control relative">
                         <label className="label">
                             <span className="label-text">Password</span>
                         </label>
-                        <input type="password" name='password' placeholder="password" className="input input-bordered" />
+                        <input type={showPassword ? 'text' : 'password'}
+
+                            name='password' placeholder="password" className="input input-bordered" />
+                        <button onClick={() => setShowPassword(!showPassword)} className='btn btn-xs absolute right-2 top-12'>
+                            {
+                                showPassword ? <BsChevronExpand /> : <BsKeyFill />
+
+                            }
+                        </button>
                         <label className="label">
                             <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                         </label>
                     </div>
+                    <div className="form-control">
+                        <label className="label justify-start gap-3 cursor-pointer">
+                        <input type="checkbox" defaultChecked className="checkbox" />
+                            <span className="label-text">Accept our Terms and condations</span>
+                            
+                        </label>
+                    </div>
                     <div className="form-control mt-6">
-                        <button  className="btn btn-primary">Login</button>
+                        <button className="btn btn-primary">Login</button>
                     </div>
                     <div className="form-control mt-6">
                         <button className="btn bg-rose-300 btn-primary">google</button>
                     </div>
                 </form>
                 {
-                    errorMesseg&& <p className='text-2xl text-red-400'>{errorMesseg}</p>
+                    errorMesseg && <p className='text-2xl text-red-400'>{errorMesseg}</p>
+                }
+                {
+                    success && <p>success full creact user</p>
                 }
             </div>
         </div>
