@@ -13,6 +13,12 @@ const SignUp = () => {
         e.preventDefault();
         const email = (e.target.email.value)
         const password = (e.target.password.value)
+        const terms =e.target.terms.checked;
+        console.log(terms)
+        if( !terms){
+            setErrorMessage('Accepet our messages')
+            return;
+        }
 
         setErrorMessage('');
         setSuccess(false)
@@ -66,7 +72,7 @@ const SignUp = () => {
                     </div>
                     <div className="form-control">
                         <label className="label justify-start gap-3 cursor-pointer">
-                        <input type="checkbox" defaultChecked className="checkbox" />
+                        <input type="checkbox" name='terms' className="checkbox" />
                             <span className="label-text">Accept our Terms and condations</span>
                             
                         </label>
