@@ -1,7 +1,8 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import React, { useState } from 'react';
 import { auth } from '../../firebase.config';
 import { BsChevronExpand, BsKeyFill } from "react-icons/bs";
+import { Link } from 'react-router-dom';
 
 
 const SignUp = () => {
@@ -13,6 +14,8 @@ const SignUp = () => {
         e.preventDefault();
         const email = (e.target.email.value)
         const password = (e.target.password.value)
+        const name = (e.target.name.value)
+        const photo = (e.target.photo.value)
         const terms =e.target.terms.checked;
         console.log(terms)
         if( !terms){
@@ -31,7 +34,10 @@ const SignUp = () => {
             .then(result => {
                 console.log(result.user);
 
-
+                sendEmailVerification(auth.currentUser)
+                .then(() =>{
+                    console.log('varifation email')
+                })
             })
             .catch(error => {
                 console.log(error.message);
@@ -52,6 +58,20 @@ const SignUp = () => {
                         </label>
                         <input type="email"
                             name='email' placeholder="email" className="input input-bordered" />
+                    </div>
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">Name</span>
+                        </label>
+                        <input type="text"
+                            name='name' placeholder="Name" className="input input-bordered" />
+                    </div>
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">photo Url</span>
+                        </label>
+                        <input type="text"
+                            name='photo' placeholder="photo" className="input input-bordered" />
                     </div>
                     <div className="form-control relative">
                         <label className="label">
@@ -90,6 +110,7 @@ const SignUp = () => {
                 {
                     success && <p>success full creact user</p>
                 }
+                <p>Plice Login <Link className='text-red-100' to='/login'>Login</Link></p>
             </div>
         </div>
     );

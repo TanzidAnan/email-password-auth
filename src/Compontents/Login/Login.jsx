@@ -1,12 +1,13 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useRef, useState } from 'react';
 import { auth } from '../../firebase.config';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
 
     const [success,setSuccess] =useState(false);
-    const [errorMessag,setErrorMessage] =useState('')
+    const [errorMessag,setErrorMessage] =useState('');
+    const emailRef =useRef()
 
     const hendleLogin =e =>{
         e.preventDefault();
@@ -19,12 +20,30 @@ const Login = () => {
         signInWithEmailAndPassword(auth, email,password)
         .then(result =>{
             console.log(result.user);
-            setSuccess(true)
+            if(result.user.emailVerified){
+                setErrorMessage('Plice varify your email ')
+            }
+            else{
+                setSuccess(true)
+            }
         })
         .catch(error =>{
             console.log("ERROR:",error.message);
             setErrorMessage(error.message)
         })
+    }
+
+    const hendleForgetPassword = () =>{
+        const email=emailRef.current.value;
+        if(!email){
+            alert('inter your email')
+        }
+        else{
+            sendPasswordResetEmail(auth,email)
+            .then(() =>{
+                alert('resute')
+            })
+        }
     }
     return (
         <div>
@@ -43,14 +62,14 @@ const Login = () => {
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input type="email" name='email' placeholder="email" className="input input-bordered" required />
+                                <input type="email" name='email' ref={emailRef} placeholder="email" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
                                 <input type="password" name='password' placeholder="password" className="input input-bordered" required />
-                                <label className="label">
+                                <label onClick={hendleForgetPassword} className="label">
                                     <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label>
                             </div>
