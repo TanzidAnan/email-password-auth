@@ -1,9 +1,16 @@
 
 const SignUp = () => {
+    const hendleSignUp = (e) => {
+        e.preventDefault()
+        const email = (e.target.email.value);
+        const password =(e.target.password.value);
+
+        console.log(email,password)
+    }
     return (
         <div className='max-w-lg mx-auto bg-slate-400 p-9 rounded-md'>
             <h1 className='text-black font-bold text-center text-2xl '>Sign Up</h1>
-            <form >
+            <form onSubmit={hendleSignUp}>
                 <div className='mt-7'>
                     <label className="input input-bordered flex items-center gap-2">
                         <svg
