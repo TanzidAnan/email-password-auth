@@ -13,6 +13,14 @@ const SignUp = () => {
 
         setErrorMessage( '');
         setSuccess(false)
+
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+        if(!passwordRegex.test(password)){
+            setErrorMessage('verfection password');
+            return
+        }
+
         if(password.length < 6){
             setErrorMessage('password should be 6 carecter');
             return
