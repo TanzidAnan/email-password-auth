@@ -1,3 +1,5 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase.config";
 
 const SignUp = () => {
     const hendleSignUp = (e) => {
@@ -5,7 +7,13 @@ const SignUp = () => {
         const email = (e.target.email.value);
         const password =(e.target.password.value);
 
-        console.log(email,password)
+        createUserWithEmailAndPassword(auth,email,password)
+        .then(result =>{
+            console.log(result.user)
+        })
+        .catch(error =>{
+            console.log(error.message)
+        })
     }
     return (
         <div className='max-w-lg mx-auto bg-slate-400 p-9 rounded-md'>
