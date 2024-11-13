@@ -3,9 +3,11 @@ import { auth } from "../../firebase.config";
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { NavLink } from "react-router-dom";
 
 const Login = () => {
-    const [success,setSuccess] =useState(false)
+    const [success,setSuccess] =useState(false);
+    const [loginError,setLoginError] =useState('')
 
     const hendleLogin =(e) =>{
         e.preventDefault();
@@ -13,6 +15,7 @@ const Login = () => {
         const password =e.target.password.value;
         console.log(email,password)
         setSuccess(false)
+        setLoginError('')
 
         signInWithEmailAndPassword(auth,email,password)
         .then(res =>{
@@ -22,7 +25,8 @@ const Login = () => {
         })
         .catch(error =>{
             console.log(error.message)
-            toast.error('no login')
+            toast.error(error.message)
+            setLoginError(error.message)
         })
     }
 
@@ -61,6 +65,11 @@ const Login = () => {
                         success && <p>Login success full</p>
                         
                     }
+                    {
+                        loginError&& <p>{loginError}</p>
+                    }
+
+                    <p className="flex p-3 gap-3">New to this website <p className="text-green-400"><NavLink to='/signup'>Sign up</NavLink></p></p>
                 </div>
                 <ToastContainer />
             </div>
