@@ -7,6 +7,7 @@ const Header = () => {
      <li><NavLink to='/'>Home</NavLink></li>
      <li><NavLink to='/login'>login</NavLink></li>
      <li><NavLink to='/register'>Register</NavLink></li>
+     <li><NavLink to='/signup'>Register</NavLink></li>
     </>
 
     return (

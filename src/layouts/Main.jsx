@@ -3,7 +3,7 @@ import Header from "../Compontents/Header/Header";
 
 const Main = () => {
     return (
-        <div>
+        <div className="max-w-5xl mx-auto">
             <Header></Header>
             <Outlet></Outlet>
         </div>
