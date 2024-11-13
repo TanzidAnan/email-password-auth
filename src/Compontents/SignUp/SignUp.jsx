@@ -1,7 +1,11 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase.config";
+import { useState } from "react";
 
 const SignUp = () => {
+
+    const [errorMessage,setErrorMessage] =useState('')
+
     const hendleSignUp = (e) => {
         e.preventDefault()
         const email = (e.target.email.value);
@@ -12,7 +16,8 @@ const SignUp = () => {
             console.log(result.user)
         })
         .catch(error =>{
-            console.log(error.message)
+            console.log('ERROR:', error.message)
+            setErrorMessage(error.message)
         })
     }
     return (
@@ -54,6 +59,9 @@ const SignUp = () => {
                     <button className="btn btn-block bg-green-300 text-black">Register </button>
                 </div>
             </form>
+            {
+                errorMessage&& <p className="text-red-800">{errorMessage}</p>
+            }
         </div>
     );
 };
