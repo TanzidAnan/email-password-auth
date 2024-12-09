@@ -31,7 +31,7 @@ const Login = () => {
     }
 
     return (
-        <div className="hero bg-base-200 min-h-[60vh]">
+        <div className="hero bg-yellow-200 text-black min-h-[60vh]">
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center lg:text-left">
                     <h1 className="text-5xl font-bold">Login now!</h1>
